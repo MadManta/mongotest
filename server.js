@@ -84,6 +84,28 @@ app.get("/articles", function(req, res) {
     });
 });
 
+app.put("/saved", function(req, res) {
+    db.Article.update({
+        "thisId.saved": true
+    })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+app.get("/saved", function(req, res) {
+    db.Article.find({"note": true})
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+})
+
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -99,6 +121,8 @@ app.get("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+
 
 // Route for saving/updating an Article's associated Note
 app.post("/articles/:id", function(req, res) {
